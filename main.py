@@ -1,23 +1,9 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
-
-# Global configs
-BASE_X_VELOCITY = 0.0000001
-BASE_Y_VELOCITY = 0.0000001
-G = 0.0000001
-TIME_STEP = .3
-NUMBER_OF_OBJECTS = 2
-SUN = True
-SUN_MASS = 20
-DISTANCE_THRESHOLD = 0.03
-ZOOM_LEVEL = 0.5
-FOLLOW_OBJECT = False
-SHOW_OBJECTS = False
-SHOW_TRAILS = True
-SHOW_LABELS = False
-STEPS = 200000
-ANIMATE = False
+from config import (BASE_X_VELOCITY, BASE_Y_VELOCITY, G, TIME_STEP, NUMBER_OF_OBJECTS, SUN, SUN_MASS,
+                    DISTANCE_THRESHOLD, ZOOM_LEVEL, FOLLOW_OBJECT, SHOW_OBJECTS, SHOW_TRAILS, SHOW_LABELS, STEPS,
+                    ANIMATE)
 
 
 class Object:
@@ -70,7 +56,7 @@ class Object:
         self.orbit.append((self.x, self.y))
 
 
-def generate_stars():
+def generate_objects():
     x = np.random.rand(NUMBER_OF_OBJECTS)
     y = np.random.rand(NUMBER_OF_OBJECTS)
 
@@ -223,7 +209,7 @@ def static(objects):
 
 if __name__ == "__main__":
     fig = plt.figure()
-    LI = generate_stars()
+    LI = generate_objects()
     if ANIMATE:
         ani = FuncAnimation(fig, animate, interval=1)
     else:
