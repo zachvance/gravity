@@ -18,6 +18,10 @@ I started off by generating randomized, still images of starfields using PIL. Th
 
 Placing them by weighted areas would probably have worked and been easier to implement, but I thought that I could learn more from a gravity simulation, and have more fun playing with the variables.
 
+The first version used the force of gravity, however, at first I could only get the objects to attract and 'stick' to eachother. After some searching I learned that I also needed to apply a base velocity to each object to stop them from colliding and allow them to fall into orbit.
+
+[This video]([https://link-url-here.org](https://www.youtube.com/watch?v=WTLPmUHTPqo)) on YouTube helped me understand the mechanics and allowed me to fix my code via it's velocities, force x, and force y.
+
 ## Todo
 
 - Probably add an argparse menu
