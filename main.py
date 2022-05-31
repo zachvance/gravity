@@ -1,9 +1,11 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
-from config import (BASE_X_VELOCITY, BASE_Y_VELOCITY, G, TIME_STEP, NUMBER_OF_OBJECTS, SUN, SUN_MASS,
-                    DISTANCE_THRESHOLD, ZOOM_LEVEL, FOLLOW_OBJECT, SHOW_OBJECTS, SHOW_TRAILS, SHOW_LABELS, STEPS,
-                    ANIMATE)
+
+from config import (ANIMATE, BASE_X_VELOCITY, BASE_Y_VELOCITY,
+                    DISTANCE_THRESHOLD, FOLLOW_OBJECT, NUMBER_OF_OBJECTS,
+                    SHOW_LABELS, SHOW_OBJECTS, SHOW_TRAILS, STEPS, SUN,
+                    SUN_MASS, TIME_STEP, ZOOM_LEVEL, G)
 
 
 class Object:
