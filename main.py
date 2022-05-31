@@ -88,34 +88,24 @@ def animate(i):
     plt.cla()
     ax = plt.gca()
 
-    for star in LI:
-        star.update_position(LI)
-
     x = []
     y = []
-    n = []
-    s = []
-    b = []
-
+    labels = []
+    size = []
+    brightness = []
     orbit_x = []
     orbit_y = []
 
     for item in LI:
-        ix = item.x
-        iy = item.y
+        item.update_position(LI)
         x.append(item.x)
         y.append(item.y)
-        n.append(round(item.mass, 3))
-        item.x = ix
-        item.y = iy
-        ii = item.mass
-        s.append(ii * 9)
-        ib = item.brightness
-        b.append(ib)
-
-        for item_y in item.orbit:
-            orbit_x.append(item_y[0])
-            orbit_y.append(item_y[1])
+        labels.append(round(item.mass, 4))
+        size.append(item.mass * 10)
+        brightness.append(item.brightness)
+        for orbit_point in item.orbit:
+            orbit_x.append(orbit_point[0])
+            orbit_y.append(orbit_point[1])
 
     # Plot trajectories
     if SHOW_TRAILS:
@@ -123,11 +113,11 @@ def animate(i):
 
     # Plot objects
     if SHOW_OBJECTS:
-        plt.scatter(x, y, alpha=1, s=s, c="w")
+        plt.scatter(x, y, alpha=1, s=size, c="w")
 
     # Plot data labels
     if SHOW_LABELS:
-        for i, txt in enumerate(n):
+        for i, txt in enumerate(labels):
             plt.annotate(txt, (x[i], y[i]), color="w")
 
     if FOLLOW_OBJECT:
