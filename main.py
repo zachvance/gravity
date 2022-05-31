@@ -1,3 +1,5 @@
+from typing import List, Tuple
+
 import matplotlib.pyplot as plt
 import numpy as np
 from matplotlib.animation import FuncAnimation
@@ -15,14 +17,14 @@ class Object:
         self.mass = mass
         self.brightness = brightness
         self.new_coordinates = [self.x, self.y]
-        self.colour = None
-        self.radius = None
+        self.colour = None  # Not currently used
+        self.radius = None  # Not currently used
 
         self.x_velocity = x_velocity
         self.y_velocity = y_velocity
         self.orbit = []
 
-    def attraction(self, other):
+    def attraction(self, other) -> Tuple[float, float]:
         other_x, other_y = other.x, other.y
         distance_x = other_x - self.x
         distance_y = other_y - self.y
@@ -37,9 +39,9 @@ class Object:
             return force_x, force_y
 
         else:
-            return 0, 0
+            return 0.0, 0.0
 
-    def update_position(self, stars):
+    def update_coordinates(self, stars):
         total_fx = total_fy = 0
         for star in stars:
             if star == self:
@@ -58,7 +60,7 @@ class Object:
         self.orbit.append((self.x, self.y))
 
 
-def generate_objects():
+def generate_objects() -> List:
     x = np.random.rand(NUMBER_OF_OBJECTS)
     y = np.random.rand(NUMBER_OF_OBJECTS)
 
@@ -86,10 +88,12 @@ def generate_objects():
     return object_list
 
 
-def animate(i):
+def plot_objects(self=None) -> None:
     plt.cla()
     ax = plt.gca()
+    ax.set_facecolor(color="black")
 
+    # Lists for plotting
     x = []
     y = []
     labels = []
@@ -98,8 +102,22 @@ def animate(i):
     orbit_x = []
     orbit_y = []
 
-    for item in LI:
-        item.update_position(LI)
+    """
+    If ANIMATE is False, we just want to plot the final image, so we iterate through our list of objects and update
+    their positions n number of times (STEPS), and then move on to plotting.
+    """
+    if ANIMATE is False:
+        for i in range(STEPS):
+            for star in LIST_OF_OBJECTS:
+                star.update_coordinates(LIST_OF_OBJECTS)
+
+    for item in LIST_OF_OBJECTS:
+        """
+        If ANIMATE is True, then we update the position and then plot each item; the animation loop is handled via
+        matplotlib.animation's FuncAnimation.
+        """
+        if ANIMATE:
+            item.update_coordinates(LIST_OF_OBJECTS)
         x.append(item.x)
         y.append(item.y)
         labels.append(round(item.mass, 4))
@@ -111,19 +129,20 @@ def animate(i):
 
     # Plot trajectories
     if SHOW_TRAILS:
-        plt.scatter(orbit_x, orbit_y, alpha=0.5, s=0.08, c="r")
+        plt.scatter(orbit_x, orbit_y, alpha=0.2, s=0.05, c="w")
 
     # Plot objects
     if SHOW_OBJECTS:
-        plt.scatter(x, y, alpha=1, s=size, c="w")
+        plt.scatter(x, y, alpha=brightness, s=size, c="w")
 
     # Plot data labels
     if SHOW_LABELS:
         for i, txt in enumerate(labels):
             plt.annotate(txt, (x[i], y[i]), color="w")
 
+    # If FOLLOW_OBJECT is True then adjust the axis accordingly
     if FOLLOW_OBJECT:
-        follow_body = LI[-1]
+        follow_body = LIST_OF_OBJECTS[-1]
         x_min = follow_body.x - ZOOM_LEVEL
         x_max = follow_body.x + ZOOM_LEVEL
         y_min = follow_body.y - ZOOM_LEVEL
@@ -133,77 +152,13 @@ def animate(i):
     else:
         plt.xlim(0, 1)
         plt.ylim(0, 1)
-
-    ax.set_facecolor(color="black")
-
-
-def static(objects):
-    plt.cla()
-    ax = plt.gca()
-
-    for i in range(STEPS):
-        for star in LI:
-            star.update_position(LI)
-
-    x = []
-    y = []
-    n = []
-    s = []
-    b = []
-
-    orbit_x = []
-    orbit_y = []
-
-    for item in objects:
-        ix = item.x
-        iy = item.y
-        x.append(item.x)
-        y.append(item.y)
-        n.append(round(item.mass, 3))
-        item.x = ix
-        item.y = iy
-        ii = item.mass
-        s.append(ii * 9)
-        ib = item.brightness
-        b.append(ib)
-
-        for item_y in item.orbit:
-            orbit_x.append(item_y[0])
-            orbit_y.append(item_y[1])
-
-    # Plot trajectories
-    if SHOW_TRAILS:
-        plt.scatter(orbit_x, orbit_y, alpha=0.2, s=0.08, c="w")
-
-    # Plot objects
-    if SHOW_OBJECTS:
-        plt.scatter(x, y, alpha=1, s=s, c="w")
-
-    # Plot data labels
-    if SHOW_LABELS:
-        for i, txt in enumerate(n):
-            plt.annotate(txt, (x[i], y[i]), color="w")
-
-    if FOLLOW_OBJECT:
-        follow_body = LI[-1]
-        x_min = follow_body.x - ZOOM_LEVEL
-        x_max = follow_body.x + ZOOM_LEVEL
-        y_min = follow_body.y - ZOOM_LEVEL
-        y_max = follow_body.y + ZOOM_LEVEL
-        plt.xlim(x_min, x_max)
-        plt.ylim(y_min, y_max)
-    else:
-        plt.xlim(0, 1)
-        plt.ylim(0, 1)
-
-    ax.set_facecolor(color="black")
 
 
 if __name__ == "__main__":
     fig = plt.figure()
-    LI = generate_objects()
+    LIST_OF_OBJECTS = generate_objects()
     if ANIMATE:
-        ani = FuncAnimation(fig, animate, interval=1)
+        ani = FuncAnimation(fig, plot_objects, interval=1)
     else:
-        static(LI)
+        plot_objects()
     plt.show()
