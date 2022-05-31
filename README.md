@@ -1,3 +1,5 @@
+<img src="https://github.com/zachvance/gravity/blob/main/images/gravity_simulation.png" alt="Header"/>
+
 # gravity
 
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
