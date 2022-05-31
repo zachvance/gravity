@@ -1,4 +1,4 @@
-<img src="https://github.com/zachvance/gravity/blob/main/images/gravity_simulation.png" alt="Header"/>
+<img src="https://github.com/zachvance/gravity/blob/main/images/gravity_simulation.png" alt="Header" width="600"/>
 
 # gravity
 
