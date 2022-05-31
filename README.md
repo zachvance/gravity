@@ -27,3 +27,7 @@ The first version used the force of gravity, however, at first I could only get 
 - Probably add an argparse menu
 - Add options for saving both the finalized still image and an MP4 animation
 - Add some colour options
+
+## Sample images
+
+![alt text](https://github.com/zachvance/gravity/blob/main/images/sample1.png "Title")
