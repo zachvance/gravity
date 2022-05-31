@@ -5,9 +5,10 @@ import numpy as np
 from matplotlib.animation import FuncAnimation
 
 from config import (ANIMATE, BASE_X_VELOCITY, BASE_Y_VELOCITY,
-                    DISTANCE_THRESHOLD, FOLLOW_OBJECT, NUMBER_OF_OBJECTS,
-                    SHOW_LABELS, SHOW_OBJECTS, SHOW_TRAILS, STEPS, SUN,
-                    SUN_MASS, TIME_STEP, ZOOM_LEVEL, G)
+                    DISTANCE_THRESHOLD, FOLLOW_OBJECT, LABEL_COLOUR,
+                    NUMBER_OF_OBJECTS, OBJECT_COLOUR, SAVE_OUTPUT, SHOW_LABELS,
+                    SHOW_OBJECTS, SHOW_TRAILS, STEPS, SUN, SUN_MASS, TIME_STEP,
+                    TRAIL_COLOUR, ZOOM_LEVEL, G)
 
 
 class Object:
@@ -129,16 +130,16 @@ def plot_objects(self=None) -> None:
 
     # Plot trajectories
     if SHOW_TRAILS:
-        plt.scatter(orbit_x, orbit_y, alpha=0.2, s=0.05, c="w")
+        plt.scatter(orbit_x, orbit_y, alpha=0.2, s=0.05, c=TRAIL_COLOUR)
 
     # Plot objects
     if SHOW_OBJECTS:
-        plt.scatter(x, y, alpha=brightness, s=size, c="w")
+        plt.scatter(x, y, alpha=brightness, s=size, c=OBJECT_COLOUR)
 
     # Plot data labels
     if SHOW_LABELS:
         for i, txt in enumerate(labels):
-            plt.annotate(txt, (x[i], y[i]), color="w")
+            plt.annotate(txt, (x[i], y[i]), color=LABEL_COLOUR)
 
     # If FOLLOW_OBJECT is True then adjust the axis accordingly
     if FOLLOW_OBJECT:
@@ -152,6 +153,11 @@ def plot_objects(self=None) -> None:
     else:
         plt.xlim(0, 1)
         plt.ylim(0, 1)
+
+    if ANIMATE is False and SAVE_OUTPUT is True:
+        ax.get_xaxis().set_visible(False)
+        ax.get_yaxis().set_visible(False)
+        plt.savefig("plot.png", dpi=300, bbox_layout="tight")
 
 
 if __name__ == "__main__":
