@@ -30,4 +30,5 @@ The first version used the force of gravity, however, at first I could only get 
 
 ## Sample images
 
-![alt text](https://github.com/zachvance/gravity/blob/main/images/sample1.png "Title")
+![sample1](https://github.com/zachvance/gravity/blob/main/images/sample1.png "Sample 1")
+![sample2](https://github.com/zachvance/gravity/blob/main/images/sample2.png "Sample 2")
