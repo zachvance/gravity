@@ -31,3 +31,5 @@ The first version used the force of gravity, however, at first I could only get 
 ## Sample images
 
 <img src="https://github.com/zachvance/gravity/blob/main/images/sample1.png" alt="Sample 1" width="400"/><img src="https://github.com/zachvance/gravity/blob/main/images/sample2.png" alt="Sample 2" width="400"/>
+<img src="https://github.com/zachvance/gravity/blob/main/images/sample3.png" alt="Sample 3" width="400"/><img src="https://github.com/zachvance/gravity/blob/main/images/sample4.png" alt="Sample 4" width="400"/>
+<img src="https://github.com/zachvance/gravity/blob/main/images/sample5.png" alt="Sample 5" width="400"/><img src="https://github.com/zachvance/gravity/blob/main/images/sample6.png" alt="Sample 6" width="400"/>
