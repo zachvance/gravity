@@ -25,8 +25,8 @@ The first version used the force of gravity, however, at first I could only get 
 ## Todo
 
 - Probably add an argparse menu
-- Add options for saving both the finalized still image and an MP4 animation
-- Add some colour options
+- Add an option for saving the animation output as MP4 or GIF
+- Add greater control over colour options
 
 ## Sample images
 
