@@ -7,7 +7,7 @@ A simple gravity simulation using Python and Matplotlib.
 1. Adjust the settings located in config.py to your liking.
 2. Run main.py
 
-## Reasoning
+## Background
 
 This project came about as more of a 'happy accident' - a byproduct of my attempting to generate a procedural image of a nebula.
 
@@ -19,3 +19,4 @@ Placing them by weighted areas would probably have worked and been easier to imp
 
 - Probably add an argparse menu
 - Add options for saving both the finalized still image and an MP4 animation
+- Add some colour options
