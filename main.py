@@ -2,13 +2,15 @@ from typing import List, Tuple
 
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.animation import FuncAnimation
+import seaborn as sns
+from matplotlib.animation import FFMpegWriter, FuncAnimation
 
 from config import (ANIMATE, BASE_X_VELOCITY, BASE_Y_VELOCITY,
-                    DISTANCE_THRESHOLD, FOLLOW_OBJECT, LABEL_COLOUR,
-                    NUMBER_OF_OBJECTS, OBJECT_COLOUR, SAVE_OUTPUT, SHOW_LABELS,
-                    SHOW_OBJECTS, SHOW_TRAILS, STEPS, SUN, SUN_MASS, TIME_STEP,
-                    TRAIL_COLOUR, ZOOM_LEVEL, G)
+                    DISTANCE_THRESHOLD, FACE_COLOUR, FOLLOW_OBJECT,
+                    LABEL_COLOUR, NUMBER_OF_OBJECTS, OBJECT_COLOUR, PALETTE,
+                    SAVE_OUTPUT, SAVE_VIDEO, SHOW_LABELS, SHOW_OBJECTS,
+                    SHOW_TRAILS, STEPS, SUN, SUN_MASS, TIME_STEP, TRAIL_COLOUR,
+                    ZOOM_LEVEL, G)
 
 
 class Object:
@@ -89,10 +91,10 @@ def generate_objects() -> List:
     return object_list
 
 
-def plot_objects(self=None) -> None:
+def plot_objects(self=None):
     plt.cla()
     ax = plt.gca()
-    ax.set_facecolor(color="black")
+    ax.set_facecolor(color=FACE_COLOUR)
 
     # Lists for plotting
     x = []
@@ -102,6 +104,7 @@ def plot_objects(self=None) -> None:
     brightness = []
     orbit_x = []
     orbit_y = []
+    orbit_colour = []
 
     """
     If ANIMATE is False, we just want to plot the final image, so we iterate through our list of objects and update
@@ -127,14 +130,25 @@ def plot_objects(self=None) -> None:
         for orbit_point in item.orbit:
             orbit_x.append(orbit_point[0])
             orbit_y.append(orbit_point[1])
+            orbit_colour.append(item.brightness)
 
     # Plot trajectories
     if SHOW_TRAILS:
-        plt.scatter(orbit_x, orbit_y, alpha=0.2, s=0.05, c=TRAIL_COLOUR)
+        sns.scatterplot(
+            x=orbit_x,
+            y=orbit_y,
+            s=1,
+            alpha=0.7,
+            hue=orbit_colour,
+            palette=PALETTE,
+            linewidth=0,
+            legend=False,
+            ax=ax,
+        )
 
     # Plot objects
     if SHOW_OBJECTS:
-        plt.scatter(x, y, alpha=brightness, s=size, c=OBJECT_COLOUR)
+        sns.scatterplot(x=x, y=y, alpha=brightness, s=size, color=OBJECT_COLOUR)
 
     # Plot data labels
     if SHOW_LABELS:
@@ -154,6 +168,7 @@ def plot_objects(self=None) -> None:
         plt.xlim(0, 1)
         plt.ylim(0, 1)
 
+    # If you're not animating and just want a finalized imaged output saved:
     if ANIMATE is False and SAVE_OUTPUT is True:
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
