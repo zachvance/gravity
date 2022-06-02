@@ -27,43 +27,65 @@ class Object:
         self.y_velocity = y_velocity
         self.orbit = []
 
-    def attraction(self, other) -> Tuple[float, float]:
-        other_x, other_y = other.x, other.y
-        distance_x = other_x - self.x
-        distance_y = other_y - self.y
-        distance = np.sqrt(distance_x ** 2 + distance_y ** 2)
 
-        if distance > DISTANCE_THRESHOLD:
-            force = G * self.mass * other.mass / distance ** 2
-            theta = np.arctan2(distance_y, distance_x)
-            force_x = np.cos(theta) * force
-            force_y = np.sin(theta) * force
+def attraction(a, b) -> Tuple[float, float]:
+    """
+    Calculates gravitational force based on Newton's universal law of gravitation.
 
-            return force_x, force_y
+    Calculates directional forces based on Kepler's planetary motion.
 
-        else:
-            return 0.0, 0.0
+    Returns a tuple containing two floats representing the amount of force exerted on A by B in both x and y directions.
 
-    def update_coordinates(self, stars):
-        total_fx = total_fy = 0
-        for star in stars:
-            if star == self:
-                continue
+    :param a: Object A
+    :param b: Object B
+    :return: A tuple of floats
+    """
 
-            fx, fy = self.attraction(star)
-            total_fx += fx
-            total_fy += fy
+    other_x, other_y = b.x, b.y
+    distance_x = other_x - a.x
+    distance_y = other_y - a.y
+    distance = np.sqrt(distance_x ** 2 + distance_y ** 2)
 
-        self.x_velocity += total_fx / self.mass * TIME_STEP
-        self.y_velocity += total_fy / self.mass * TIME_STEP
+    if distance > DISTANCE_THRESHOLD:
+        force = G * a.mass * b.mass / distance ** 2
+        theta = np.arctan2(distance_y, distance_x)
+        force_x = np.cos(theta) * force
+        force_y = np.sin(theta) * force
 
-        self.x += self.x_velocity * TIME_STEP
-        self.y += self.y_velocity * TIME_STEP
+        return force_x, force_y
 
-        self.orbit.append((self.x, self.y))
+    else:
+        return 0.0, 0.0
+
+
+def update_coordinates(object_to_update, list_of_objects):
+    total_fx = total_fy = 0
+    for obj in list_of_objects:
+        if obj == object_to_update:
+            continue
+
+        fx, fy = attraction(object_to_update, obj)
+        total_fx += fx
+        total_fy += fy
+
+    object_to_update.x_velocity += total_fx / object_to_update.mass * TIME_STEP
+    object_to_update.y_velocity += total_fy / object_to_update.mass * TIME_STEP
+
+    object_to_update.x += object_to_update.x_velocity * TIME_STEP
+    object_to_update.y += object_to_update.y_velocity * TIME_STEP
+
+    object_to_update.orbit.append((object_to_update.x, object_to_update.y))
 
 
 def generate_objects() -> List:
+    """
+    Creates n number of objects and appends them to a list.
+
+    If the 'SUN' variable in the config is True, will create an additional 'sun' object and append it to the end of the
+    object list.
+
+    :return: A list of object instances
+    """
     x = np.random.rand(NUMBER_OF_OBJECTS)
     y = np.random.rand(NUMBER_OF_OBJECTS)
 
@@ -71,18 +93,20 @@ def generate_objects() -> List:
 
     object_list = []
     for coordinates in li:
-        b = np.random.rand() * 2.4
-        if b > 1:
-            b = 1
-        s = Object(
+
+        brightness = np.random.rand() * 1.6
+        if brightness > 1:
+            brightness = 1
+
+        obj = Object(
             coordinates[0],
             coordinates[1],
             np.random.rand(),
-            b,
+            brightness,
             BASE_X_VELOCITY,
             BASE_Y_VELOCITY,
         )
-        object_list.append(s)
+        object_list.append(obj)
 
     if SUN:
         sun = Object(0.50, 0.50, SUN_MASS, 1, 0.0, 0.0)
@@ -91,7 +115,15 @@ def generate_objects() -> List:
     return object_list
 
 
-def plot_objects(self=None):
+def plot_objects(self=None) -> None:
+    """
+    Handles the creation of the plot for both still images and/or an animation.
+
+    .. todo:
+        Currently has an unused argument because FuncAnimation requires it. I would like to refactor to clean this up.
+
+    :return: None
+    """
     plt.cla()
     ax = plt.gca()
     ax.set_facecolor(color=FACE_COLOUR)
@@ -121,7 +153,7 @@ def plot_objects(self=None):
         matplotlib.animation's FuncAnimation.
         """
         if ANIMATE:
-            item.update_coordinates(LIST_OF_OBJECTS)
+            update_coordinates(item, LIST_OF_OBJECTS)
         x.append(item.x)
         y.append(item.y)
         labels.append(round(item.mass, 4))
