@@ -27,6 +27,7 @@ The first version used the force of gravity, however, at first I could only get 
 - Probably add an argparse menu
 - Add an option for saving the animation output as MP4 or GIF
 - Add greater control over colour options
+- Docstrings & typehints
 
 ## Sample images
 
