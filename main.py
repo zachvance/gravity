@@ -144,8 +144,8 @@ def plot_objects(self=None) -> None:
     """
     if ANIMATE is False:
         for i in range(STEPS):
-            for star in LIST_OF_OBJECTS:
-                star.update_coordinates(LIST_OF_OBJECTS)
+            for item in LIST_OF_OBJECTS:
+                update_coordinates(item, LIST_OF_OBJECTS)
 
     for item in LIST_OF_OBJECTS:
         """
