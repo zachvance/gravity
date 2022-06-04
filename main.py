@@ -28,7 +28,7 @@ class Object:
         self.orbit = []
 
 
-def attraction(a, b) -> Tuple[float, float]:
+def attraction(a: Object, b: Object) -> Tuple[float, float]:
     """
     Calculates gravitational force based on Newton's universal law of gravitation.
 
