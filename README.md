@@ -1,4 +1,4 @@
-<img src="https://github.com/zachvance/gravity/blob/main/images/banner1.png" alt="Banner" width="1000"/>
+<img src="https://github.com/zachvance/gravity/blob/main/images/banner.png" alt="Banner" width="1000"/>
 
 # Gravity
 
