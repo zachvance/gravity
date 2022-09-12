@@ -3,18 +3,36 @@ from typing import List, Tuple
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
-from matplotlib.animation import FFMpegWriter, FuncAnimation
+from matplotlib.animation import FuncAnimation
 
-from config import (ANIMATE, BASE_X_VELOCITY, BASE_Y_VELOCITY,
-                    DISTANCE_THRESHOLD, FACE_COLOUR, FOLLOW_OBJECT,
-                    LABEL_COLOUR, NUMBER_OF_OBJECTS, OBJECT_COLOUR, PALETTE,
-                    SAVE_OUTPUT, SAVE_VIDEO, SHOW_LABELS, SHOW_OBJECTS,
-                    SHOW_TRAILS, STEPS, SUN, SUN_MASS, TIME_STEP, TRAIL_COLOUR,
-                    ZOOM_LEVEL, G)
+from config import (
+    ANIMATE,
+    BASE_X_VELOCITY,
+    BASE_Y_VELOCITY,
+    DISTANCE_THRESHOLD,
+    FACE_COLOUR,
+    FOLLOW_OBJECT,
+    LABEL_COLOUR,
+    NUMBER_OF_OBJECTS,
+    OBJECT_COLOUR,
+    PALETTE,
+    SAVE_OUTPUT,
+    # SAVE_VIDEO, # For future use
+    SHOW_LABELS,
+    SHOW_OBJECTS,
+    SHOW_TRAILS,
+    STEPS,
+    SUN,
+    SUN_MASS,
+    TIME_STEP,
+    # TRAIL_COLOUR, # For future use
+    ZOOM_LEVEL,
+    G,
+)
 
 
 class Object:
-    def __init__(self, x, y, mass, brightness, x_velocity, y_velocity):
+    def __init__(self, x, y, mass, brightness, x_velocity, y_velocity) -> None:
         self.x = x
         self.y = y
         self.mass = mass
@@ -44,10 +62,10 @@ def attraction(a: Object, b: Object) -> Tuple[float, float]:
     other_x, other_y = b.x, b.y
     distance_x = other_x - a.x
     distance_y = other_y - a.y
-    distance = np.sqrt(distance_x ** 2 + distance_y ** 2)
+    distance = np.sqrt(distance_x**2 + distance_y**2)
 
     if distance > DISTANCE_THRESHOLD:
-        force = G * a.mass * b.mass / distance ** 2
+        force = G * a.mass * b.mass / distance**2
         theta = np.arctan2(distance_y, distance_x)
         force_x = np.cos(theta) * force
         force_y = np.sin(theta) * force
@@ -58,7 +76,7 @@ def attraction(a: Object, b: Object) -> Tuple[float, float]:
         return 0.0, 0.0
 
 
-def update_coordinates(object_to_update, list_of_objects):
+def update_coordinates(object_to_update, list_of_objects) -> None:
     total_fx = total_fy = 0
     for obj in list_of_objects:
         if obj == object_to_update:
@@ -77,7 +95,7 @@ def update_coordinates(object_to_update, list_of_objects):
     object_to_update.orbit.append((object_to_update.x, object_to_update.y))
 
 
-def generate_objects() -> List:
+def generate_objects() -> List[Object]:
     """
     Creates n number of objects and appends them to a list.
 
